@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Carro - Oficina Mecânica Fossa</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --azul-escuro: #0a1f3d;
+      --amarelo: #ffc107;
+      --amarelo-claro: #fff3cd;
+      --branco: #ffffff;
+      --cinza: #f8f9fa;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: var(--cinza);
+      color: var(--azul-escuro);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER ESTILO CORRETO */
+    header {
+      background-color: var(--azul-escuro);
+      color: var(--amarelo);
+      padding: 1rem 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--amarelo);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: var(--branco);
+      text-decoration: none;
+      transition: color 0.3s;
+      padding: 8px 12px;
+      border-radius: 4px;
+    }
+
+    .nav-links a:hover {
+      color: var(--amarelo);
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-links a.btn-login {
+      background-color: var(--amarelo);
+      color: var(--azul-escuro);
+      font-weight: bold;
+      padding: 8px 15px;
+    }
+
+    .nav-links a.btn-login:hover {
+      background-color: #e0a800;
+      color: var(--azul-escuro);
+    }
+
+    .nav-links a.btn-cadastro {
+      background-color: var(--amarelo);
+      color: var(--azul-escuro);
+      font-weight: bold;
+      padding: 8px 15px;
+    }
+
+    .nav-links a.btn-cadastro:hover {
+      background-color: #e0a800;
+      color: var(--azul-escuro);
+    }
+
+    .user-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .icone-perfil {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid var(--amarelo);
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: white;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      z-index: 1;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .dropdown-content a {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f1f1f1;
+    }
+
+    .user-dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    /* CONTEÚDO PRINCIPAL */
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      width: 100%;
+    }
+
+    .form-card {
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .form-card h2 {
+      color: var(--azul-escuro);
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--amarelo);
+      padding-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: var(--azul-escuro);
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--azul-escuro);
+      outline: none;
+    }
+
+    .btn-primary {
+      background: var(--azul-escuro);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .btn-primary:hover {
+      background: #08214e;
+    }
+
+    /* Estilos para a tabela */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table th, table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    table th {
+      background-color: var(--azul-escuro);
+      color: white;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    table tr:hover {
+      background-color: #e9e9e9;
+    }
+
+    /* RODAPÉ ESTILO CORRETO */
+    footer {
+      background-color: var(--azul-escuro);
+      color: var(--branco);
+      text-align: center;
+      padding: 2rem 0;
+      margin-top: 2rem;
+    }
+
+    footer p {
+      margin: 5px 0;
+    }
+
+    .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      background-color: #25D366;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+    }
+
+    .whatsapp-btn:hover {
+      background-color: #128C7E;
+    }
+
+    .whatsapp-btn i {
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html" class="logo">Auto Peças Fossa</a>
+      <div class="nav-links">
+        <a href="index.html">Início</a>
+        <a href="servicos.html">Serviços</a>
+        <a href="produtos.html">Produtos</a>
+        <div id="auth-buttons">
+          <!-- Será preenchido via JavaScript -->
+        </div>
+        <div id="user-menu" style="display:none;">
+          <div class="user-dropdown">
+            <img src="imagens/imagem.oficina.icone.jpg" alt="Perfil" class="icone-perfil" id="user-icon">
+            <div class="dropdown-content">
+              <a href="perfil-completo.html">Meu Perfil</a>
+              <a href="perfil.html">Cadastrar Carro</a>
+              <a href="#" id="logout-btn">Sair</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="form-card">
+      <h2>Cadastro de Carro</h2>
+
+      <form id="formCarro" action="salvar_carro.php" method="POST">
+        <div class="form-group">
+          <label for="marca">Marca *</label>
+          <input type="text" id="marca" name="marca" required>
+        </div>
+
+        <div class="form-group">
+          <label for="modelo">Modelo *</label>
+          <input type="text" id="modelo" name="modelo" required>
+        </div>
+
+        <div class="form-group">
+          <label for="ano">Ano *</label>
+          <input type="number" id="ano" name="ano" min="1900" max="2099" required>
+        </div>
+
+        <div class="form-group">
+          <label for="placa">Placa *</label>
+          <input type="text" id="placa" name="placa" placeholder="ABC1234" required>
+        </div>
+
+        <div class="form-group">
+          <label for="cor">Cor</label>
+          <input type="text" id="cor" name="cor">
+        </div>
+
+        <div class="form-group">
+          <label for="combustivel">Combustível *</label>
+          <select id="combustivel" name="combustivel" required>
+            <option value="">Selecione</option>
+            <option value="gasolina">Gasolina</option>
+            <option value="etanol">Etanol</option>
+            <option value="diesel">Diesel</option>
+            <option value="flex">Flex</option>
+            <option value="eletrico">Elétrico</option>
+            <option value="hibrido">Híbrido</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="km">Quilometragem *</label>
+          <input type="number" id="km" name="km" required>
+        </div>
+
+        <button type="submit" class="btn-primary">Cadastrar</button>
+      </form>
+    </section>
+
+    <section class="form-card">
+      <h2>Meus Carros</h2>
+      <table border="1" width="100%" id="tabelaCarros">
+        <thead>
+          <tr>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Ano</th>
+            <th>Placa</th>
+            <th>Cor</th>
+            <th>Combustível</th>
+            <th>Km</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Conteúdo será preenchido via JavaScript -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>Oficina Mecânica Fossa &copy; 2025 - Todos os direitos reservados</p>
+    <p>Endereço: Rua Marquês do Herval, 266 - Bairro Centro - Ibirama/SC</p>
+    <p>Telefone: (47) 3357-3700</p>
+    <a href="https://wa.me/5547988213642" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i> WhatsApp: (47) 98821-3642
+    </a>
+  </footer>
+
+  <script>
+    // ===== FUNÇÕES PRINCIPAIS =====
+    
+    // Verificar status de login e atualizar header
+    function checkLoginStatus() {
+      const authSection = document.getElementById('auth-buttons');
+      const userMenu = document.getElementById('user-menu');
+      
+      // Verificar se o usuário está logado
+      const usuarioLogado = localStorage.getItem('usuario_logado') || sessionStorage.getItem('usuario_logado');
+      
+      if (usuarioLogado) {
+        // Usuário logado - mostrar menu do usuário
+        authSection.style.display = 'none';
+        userMenu.style.display = 'block';
+        
+        try {
+          const usuario = JSON.parse(usuarioLogado);
+          document.getElementById('user-icon').innerHTML = `<i class="fas fa-user"></i>`;
+        } catch (e) {
+          console.error('Erro ao parsear dados do usuário:', e);
+        }
+      } else {
+        // Usuário não logado - mostrar botões de login/cadastro
+        authSection.innerHTML = `
+          <a href="login.html" class="btn-login">Login</a>
+          <a href="cadastro.html" class="btn-cadastro">Cadastre-se</a>
+        `;
+        authSection.style.display = 'flex';
+        authSection.style.gap = '15px';
+        authSection.style.alignItems = 'center';
+        userMenu.style.display = 'none';
+      }
+    }
+
+    // Verificar se o usuário está logado
+    function verificarAutenticacao() {
+        const usuarioLogado = localStorage.getItem('usuario_logado') || sessionStorage.getItem('usuario_logado');
+        if (!usuarioLogado) {
+            alert('Você precisa fazer login para acessar esta página.');
+            window.location.href = 'login.html';
+            return false;
+        }
+        return true;
+    }
+
+    async function carregarCarrosPerfil() {
+        // Verificar autenticação primeiro
+        if (!verificarAutenticacao()) {
+            return;
+        }
+
+        try {
+            console.log("Iniciando carregamento de carros...");
+            const resposta = await fetch("get_carro.php", {
+                credentials: 'include' // Incluir cookies na requisição
+            });
+            
+            // Verificar se a resposta é de redirecionamento
+            if (resposta.redirected) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Verificar primeiro se a resposta é OK
+            if (!resposta.ok) {
+                if (resposta.status === 401) {
+                    // Não autorizado - redirecionar para login
+                    localStorage.removeItem('usuario_logado');
+                    sessionStorage.removeItem('usuario_logado');
+                    alert('Sessão expirada. Por favor, faça login novamente.');
+                    window.location.href = 'login.html';
+                    return;
+                }
+                throw new Error(`Erro ${resposta.status}: ${resposta.statusText}`);
+            }
+            
+            // Verificar se a resposta é JSON
+            const contentType = resposta.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const textResponse = await resposta.text();
+                console.error("Resposta não é JSON:", textResponse.substring(0, 200));
+                throw new Error('Resposta do servidor não é JSON.');
+            }
+            
+            const dados = await resposta.json();
+            console.log("Dados recebidos:", dados);
+            
+            const tbody = document.querySelector("#tabelaCarros tbody");
+            tbody.innerHTML = "";
+            
+            // Verificar se há erro na resposta
+            if (dados.error) {
+                throw new Error(dados.error + (dados.message ? ': ' + dados.message : ''));
+            }
+            
+            // Verificar se temos dados
+            if (!dados.success) {
+                throw new Error(dados.message || 'Erro ao carregar carros');
+            }
+            
+            const carros = dados.data || [];
+            
+            // Verificar se é um array
+            if (!Array.isArray(carros)) {
+                console.error("Dados não é um array:", carros);
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center;">Formato de dados inválido</td></tr>`;
+                return;
+            }
+            
+            if (carros.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center;">Nenhum carro cadastrado</td></tr>`;
+                return;
+            }
+            
+            carros.forEach(carro => {
+                const linha = document.createElement("tr");
+                linha.innerHTML = `
+                    <td>${carro.marca || "-"}</td>
+                    <td>${carro.modelo || "-"}</td>
+                    <td>${carro.ano || "-"}</td>
+                    <td>${carro.placa || "-"}</td>
+                    <td>${carro.cor || "-"}</td>
+                    <td>${carro.combustivel || "-"}</td>
+                    <td>${carro.km || "-"}</td>
+                `;
+                tbody.appendChild(linha);
+            });
+        } catch (erro) {
+            console.error("Erro ao carregar carros:", erro);
+            const tbody = document.querySelector("#tabelaCarros tbody");
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: red;">Erro ao carregar carros: ${erro.message}</td></tr>`;
+        }
+    }
+    
+    // Função para enviar formulário via AJAX
+    async function enviarFormularioCarro(event) {
+        event.preventDefault();
+        
+        // Verificar autenticação primeiro
+        if (!verificarAutenticacao()) {
+            return;
+        }
+        
+        const formData = new FormData(document.getElementById("formCarro"));
+        const btnSubmit = document.querySelector("#formCarro button[type='submit']");
+        
+        try {
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = "Cadastrando...";
+            
+            const resposta = await fetch("salvar_carro.php", {
+                method: "POST",
+                body: formData,
+                credentials: 'include'
+            });
+            
+            const resultado = await resposta.json();
+            
+            if (resultado.success) {
+                alert("✅ " + resultado.message);
+                carregarCarrosPerfil();
+                document.getElementById("formCarro").reset();
+            } else {
+                alert("❌ " + resultado.message);
+            }
+        } catch (erro) {
+            console.error("Erro:", erro);
+            alert("❌ Erro ao conectar com o servidor.");
+        } finally {
+            btnSubmit.disabled = false;
+            btnSubmit.textContent = "Cadastrar";
+        }
+    }
+    
+    // ===== INICIALIZAÇÃO =====
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        // Configurar navbar
+        checkLoginStatus();
+        
+        // Configurar logout
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('usuario_logado');
+                sessionStorage.removeItem('usuario_logado');
+                window.location.href = 'index.html';
+            });
+        }
+
+        // Verificar autenticação ao carregar a página
+        if (!verificarAutenticacao()) {
+            return;
+        }
+        
+        // Configurar o formulário
+        const formCarro = document.getElementById("formCarro");
+        if (formCarro) {
+            formCarro.addEventListener("submit", enviarFormularioCarro);
+        }
+        
+        // Carregar carros
+        carregarCarrosPerfil();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Oficina Mecânica Fossa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --azul-escuro: #0a1f3d;
+            --amarelo: #ffc107;
+            --amarelo-claro: #fff3cd;
+            --branco: #ffffff;
+            --cinza: #f8f9fa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--cinza);
+            color: var(--azul-escuro);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--azul-escuro);
+            color: var(--amarelo);
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--amarelo);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--branco);
+            text-decoration: none;
+            transition: color 0.3s;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--amarelo);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--azul-escuro);
+            font-size: 2.2rem;
+        }
+
+        .form-section {
+            background: var(--branco);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--amarelo);
+            color: var(--azul-escuro);
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--azul-escuro);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--azul-escuro);
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Sistema de avaliação por estrelas */
+        .rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            margin: 0 2px;
+            background: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            border-radius: 3px;
+            font-size: 18px;
+        }
+
+        .rating label:hover,
+        .rating label:hover ~ label,
+        .rating input:checked ~ label {
+            background: var(--amarelo);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--amarelo);
+            color: var(--azul-escuro);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-voltar {
+            background: #6c757d;
+            color: white;
+            margin-right: 10px;
+        }
+
+        .btn-voltar:hover {
+            background: #5a6268;
+        }
+
+        .btn-cancelar {
+            background: #dc3545;
+            color: white;
+            margin-right: 10px;
+        }
+
+        .btn-cancelar:hover {
+            background: #c82333;
+        }
+
+        /* Estilos para a seção de Meus Feedbacks */
+        .feedbacks-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 1rem;
+        }
+
+        .feedback-card {
+            background: var(--branco);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .feedback-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .feedback-data {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .estrelas {
+            color: var(--amarelo);
+            margin-bottom: 1rem;
+        }
+
+        .feedback-mensagem {
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .feedback-acoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .btn-editar, .btn-excluir {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .btn-editar {
+            background: var(--azul-escuro);
+            color: white;
+        }
+
+        .btn-excluir {
+            background: #dc3545;
+            color: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        /* Modal de edição */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            overflow: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .fechar {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .fechar:hover {
+            color: #000;
+        }
+
+        footer {
+            background-color: var(--azul-escuro);
+            color: var(--branco);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            background-color: #25D366;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+        }
+
+        .whatsapp-btn i {
+            margin-right: 8px;
+        }
+
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .icone-perfil {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid var(--amarelo);
+            object-fit: cover;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .user-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            
+            .nav-links a {
+                font-size: 0.9rem;
+                padding: 6px 10px;
+            }
+            
+            .container {
+                padding: 0 0.5rem;
+            }
+            
+            .form-section {
+                padding: 1.5rem;
+            }
+            
+            .rating label {
+                width: 25px;
+                height: 25px;
+                font-size: 16px;
+            }
+            
+            .feedbacks-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 20px;
+                margin: 20px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Auto Peças Fossa</a>
+            <div class="nav-links">
+                <a href="index.html">Início</a>
+                <a href="servicos.html">Serviços</a>
+                <a href="produtos.html">Produtos</a>
+                <div id="auth-buttons">
+                    <!-- Será preenchido via JavaScript -->
+                </div>
+                <div id="user-menu" style="display:none;">
+                    <div class="user-dropdown">
+                        <img src="imagens/imagem.oficina.icone.jpg" alt="Perfil" class="icone-perfil" id="user-icon">
+                        <div class="dropdown-content">
+                            <a href="perfil-completo.html">Meu Perfil</a>
+                            <a href="perfil.html">Cadastrar Carro</a>
+                            <a href="#" id="logout-btn">Sair</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title">Deixe seu Feedback</h1>
+        
+        <div class="form-section">
+            <h2 class="section-title">Sua opinião é importante para nós</h2>
+            
+            <form id="formFeedback">
+                <input type="hidden" id="feedback_id" name="feedback_id" value="0">
+                
+                <div class="form-group">
+                    <label for="nome">Nome *</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefone">Telefone</label>
+                    <input type="text" id="telefone" name="telefone">
+                </div>
+
+                <div class="form-group">
+                    <label>Avaliação *</label>
+                    <div class="rating" id="rating-stars">
+                        <input type="radio" id="star5" name="avaliacao" value="5" required>
+                        <label for="star5"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star4" name="avaliacao" value="4">
+                        <label for="star4"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star3" name="avaliacao" value="3">
+                        <label for="star3"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star2" name="avaliacao" value="2">
+                        <label for="star2"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star1" name="avaliacao" value="1">
+                        <label for="star1"><i class="fas fa-star"></i></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="mensagem">Mensagem (Feedback) *</label>
+                    <textarea id="mensagem" name="mensagem" placeholder="Conte-nos sobre sua experiência com nossos serviços..." required></textarea>
+                </div>
+
+                <button type="button" class="btn btn-voltar" onclick="window.history.back()">Voltar</button>
+                <button type="button" class="btn btn-cancelar" id="btn-cancelar-edicao" style="display:none;">Cancelar Edição</button>
+                <button type="submit" class="btn" id="btn-submit">Enviar Feedback</button>
+            </form>
+        </div>
+        
+        <!-- Seção de Meus Feedbacks -->
+        <div class="form-section" id="meus-feedbacks" style="display: none;">
+            <h2 class="section-title">Meus Feedbacks</h2>
+            <div id="feedbacks-usuario">
+                <div class="loading">Carregando seus feedbacks...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação de Exclusão -->
+    <div id="modal-excluir" class="modal">
+        <div class="modal-content">
+            <span class="fechar" onclick="fecharModalExcluir()">&times;</span>
+            <h3>Confirmar Exclusão</h3>
+            <p>Tem certeza que deseja excluir este feedback?</p>
+            <div style="text-align: right; margin-top: 20px;">
+                <button class="btn btn-voltar" onclick="fecharModalExcluir()">Cancelar</button>
+                <button class="btn btn-excluir" id="btn-confirmar-exclusao">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Oficina Mecânica Fossa &copy; 2025 - Todos os direitos reservados</p>
+        <p>Endereço: Rua Marquês do Herval, 266 - Bairro Centro - Ibirama/SC</p>
+        <p>Telefone: (47) 3357-3700</p>
+        <a href="https://wa.me/5547988213642" class="whatsapp-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i> WhatsApp: (47) 98821-3642
+        </a>
+    </footer>
+
+    <script>
+        // Variáveis globais
+        let feedbackParaExcluir = null;
+        let modoEdicao = false;
+
+        // Função para enviar formulário de feedback
+        document.getElementById("formFeedback").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            
+            // Verificar se uma avaliação foi selecionada
+            const avaliacao = document.querySelector('input[name="avaliacao"]:checked');
+            if (!avaliacao) {
+                alert("Por favor, selecione uma avaliação com as estrelas.");
+                return;
+            }
+            
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch("salvar_feedback.php", {
+                    method: "POST",
+                    body: formData
+                });
+                
+                const result = await response.text();
+                
+                if (result === "success") {
+                    if (modoEdicao) {
+                        alert("Feedback atualizado com sucesso!");
+                        cancelarEdicao();
+                    } else {
+                        alert("Feedback enviado com sucesso! Obrigado pela sua opinião.");
+                    }
+                    
+                    this.reset();
+                    resetarEstrelas();
+                    
+                    // Recarregar feedbacks do usuário
+                    carregarFeedbacksUsuario();
+                } else {
+                    alert("Erro ao enviar feedback: " + result);
+                }
+            } catch (error) {
+                console.error("Erro:", error);
+                alert("Erro ao conectar com o servidor.");
+            }
+        });
+
+        // Função para resetar as estrelas
+        function resetarEstrelas() {
+            document.querySelectorAll('input[name="avaliacao"]').forEach(input => {
+                input.checked = false;
+            });
+        }
+
+        // Função para cancelar o modo de edição
+        function cancelarEdicao() {
+            modoEdicao = false;
+            document.getElementById('feedback_id').value = '0';
+            document.getElementById('btn-cancelar-edicao').style.display = 'none';
+            document.getElementById('btn-submit').textContent = 'Enviar Feedback';
+            document.querySelector('.section-title').textContent = 'Sua opinião é importante para nós';
+            
+            // Limpar formulário
+            document.getElementById('formFeedback').reset();
+            resetarEstrelas();
+        }
+
+        // Configurar botão de cancelar edição
+        document.getElementById('btn-cancelar-edicao').addEventListener('click', cancelarEdicao);
+
+        // Carregar feedbacks do usuário logado
+        async function carregarFeedbacksUsuario() {
+            try {
+                const usuarioLogado = localStorage.getItem('usuario_logado') || sessionStorage.getItem('usuario_logado');
+                
+                if (!usuarioLogado) {
+                    document.getElementById('meus-feedbacks').style.display = 'none';
+                    return;
+                }
+                
+                const response = await fetch('get_meus_feedbacks.php');
+                const feedbacks = await response.json();
+                
+                const container = document.getElementById('feedbacks-usuario');
+                
+                if (feedbacks.length === 0) {
+                    container.innerHTML = '<p>Você ainda não enviou nenhum feedback.</p>';
+                    return;
+                }
+                
+                let html = '';
+                feedbacks.forEach(feedback => {
+                    // Formatar data
+                    const data = new Date(feedback.data);
+                    const dataFormatada = data.toLocaleDateString('pt-BR');
+                    
+                    // Gerar estrelas baseadas na avaliação
+                    let estrelas = '';
+                    for (let i = 1; i <= 5; i++) {
+                        if (i <= feedback.avaliacao) {
+                            estrelas += '<i class="fas fa-star"></i>';
+                        } else {
+                            estrelas += '<i class="far fa-star"></i>';
+                        }
+                    }
+                    
+                    html += `
+                        <div class="feedback-card">
+                            <div class="feedback-header">
+                                <span class="feedback-data">${dataFormatada}</span>
+                            </div>
+                            <div class="estrelas">
+                                ${estrelas}
+                            </div>
+                            <p class="feedback-mensagem">${feedback.comentario}</p>
+                            <div class="feedback-acoes">
+                                <button class="btn-editar" onclick="editarFeedback(${feedback.id}, '${feedback.nome}', '${feedback.email}', '${feedback.telefone}', ${feedback.avaliacao}, '${feedback.comentario.replace(/'/g, "\\'")}')">Editar</button>
+                                <button class="btn-excluir" onclick="solicitarExclusaoFeedback(${feedback.id})">Excluir</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+                document.getElementById('meus-feedbacks').style.display = 'block';
+            } catch (error) {
+                console.error('Erro ao carregar feedbacks do usuário:', error);
+                document.getElementById('feedbacks-usuario').innerHTML = '<p>Erro ao carregar seus feedbacks.</p>';
+            }
+        }
+
+        // Função para editar feedback
+        function editarFeedback(id, nome, email, telefone, avaliacao, comentario) {
+            modoEdicao = true;
+            
+            // Preencher formulário com os dados do feedback
+            document.getElementById('feedback_id').value = id;
+            document.getElementById('nome').value = nome;
+            document.getElementById('email').value = email;
+            document.getElementById('telefone').value = telefone;
+            document.getElementById('mensagem').value = comentario;
+            
+            // Selecionar a avaliação correta
+            document.querySelector(`input[name="avaliacao"][value="${avaliacao}"]`).checked = true;
+            
+            // Atualizar interface para modo de edição
+            document.getElementById('btn-cancelar-edicao').style.display = 'inline-block';
+            document.getElementById('btn-submit').textContent = 'Atualizar Feedback';
+            document.querySelector('.section-title').textContent = 'Editando seu Feedback';
+            
+            // Rolar para o topo do formulário
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Função para solicitar exclusão de feedback
+        function solicitarExclusaoFeedback(id) {
+            feedbackParaExcluir = id;
+            document.getElementById('modal-excluir').style.display = 'block';
+        }
+
+        // Função para confirmar exclusão de feedback
+        async function confirmarExclusaoFeedback() {
+            if (!feedbackParaExcluir) return;
+            
+            try {
+                const response = await fetch('excluir_feedback.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: feedbackParaExcluir })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Feedback excluído com sucesso!');
+                    carregarFeedbacksUsuario(); // Recarregar a lista
+                } else {
+                    alert('Erro ao excluir feedback: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao excluir feedback. Verifique sua conexão e tente novamente.');
+            } finally {
+                fecharModalExcluir();
+            }
+        }
+
+        // Função para fechar modal de exclusão
+        function fecharModalExcluir() {
+            document.getElementById('modal-excluir').style.display = 'none';
+            feedbackParaExcluir = null;
+        }
+
+        // Configurar botão de confirmar exclusão
+        document.getElementById('btn-confirmar-exclusao').addEventListener('click', confirmarExclusaoFeedback);
+
+        // Fechar modal ao clicar fora dele
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('modal-excluir');
+            if (e.target === modal) {
+                fecharModalExcluir();
+            }
+        });
+
+        // Verificar status de login e atualizar header
+        function checkLoginStatus() {
+            const authSection = document.getElementById('auth-buttons');
+            const userMenu = document.getElementById('user-menu');
+            
+            // Verificar se o usuário está logado
+            const usuarioLogado = localStorage.getItem('usuario_logado') || sessionStorage.getItem('usuario_logado');
+            
+            if (usuarioLogado) {
+                // Usuário logado - mostrar menu do usuário
+                authSection.style.display = 'none';
+                userMenu.style.display = 'block';
+                
+                try {
+                    const usuario = JSON.parse(usuarioLogado);
+                    document.getElementById('user-icon').alt = usuario.nome;
+                } catch (e) {
+                    console.error('Erro ao parsear dados do usuário:', e);
+                }
+            } else {
+                // Usuário não logado - mostrar botões de login/cadastro
+                authSection.innerHTML = `
+                    <a href="login.html">Login</a>
+                    <a href="cadastro.html" style="background-color: #ffcc00; color: #000; padding: 8px 15px; border-radius: 4px; font-weight: bold;">Cadastre-se</a>
+                `;
+                authSection.style.display = 'flex';
+                authSection.style.gap = '15px';
+                authSection.style.alignItems = 'center';
+                userMenu.style.display = 'none';
+            }
+        }
+
+        // Configurar logout
+        document.getElementById('logout-btn')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('usuario_logado');
+            sessionStorage.removeItem('usuario_logado');
+            window.location.href = 'index.html';
+        });
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+            carregarFeedbacksUsuario();
+        });
+    </script>
+</body>
+</html>
