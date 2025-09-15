@@ -12,7 +12,7 @@ oferecendo funcionalidades de:
 
 ## 📋 Tecnologias Utilizadas
 
-- **Frontend:** HTML5, CSS3, JavaScript  
+- **Frontend:** HTML, CSS, JavaScript  
 - **Backend:** PHP 8.4 (8.4.12)  
 - **Banco de Dados:** MySQL 8.0.43 (gerenciado via MySQL Workbench)  
 - **Servidor:** PHP embutido (`php -S`)
