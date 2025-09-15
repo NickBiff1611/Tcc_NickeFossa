@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oficina Mecânica Fossa - Especialistas em Automóveis</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --azul-escuro: #0a1f3d;
+            --amarelo: #ffc107;
+            --amarelo-claro: #fff3cd;
+            --branco: #ffffff;
+            --cinza: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--cinza);
+            color: var(--azul-escuro);
+        }
+
+        header {
+            background-color: var(--azul-escuro);
+            color: var(--amarelo);
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--amarelo);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--branco);
+            text-decoration: none;
+            transition: color 0.3s;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .nav-links a:hover {
+            color: var(--amarelo);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a.btn-login {
+            background-color: var(--amarelo);
+            color: var(--azul-escuro);
+            font-weight: bold;
+            padding: 8px 15px;
+        }
+
+        .nav-links a.btn-login:hover {
+            background-color: #e0a800;
+            color: var(--azul-escuro);
+        }
+
+        .nav-links a.btn-cadastro {
+            background-color: var(--amarelo);
+            color: var(--azul-escuro);
+            font-weight: bold;
+            padding: 8px 15px;
+        }
+
+        .nav-links a.btn-cadastro:hover {
+            background-color: #e0a800;
+            color: var(--azul-escuro);
+        }
+
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .icone-perfil {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid var(--amarelo);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .user-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(10, 31, 61, 0.8), rgba(10, 31, 61, 0.8)), url('imagens/banner-oficina.jpg');
+            background-size: cover;
+            background-position: center;
+            color: var(--branco);
+            text-align: center;
+            padding: 4rem 1rem;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-logo img {
+            width: 200px;
+            height: auto;
+            display: block;
+        }
+
+        .hero-texto {
+            flex: 1;
+            min-width: 250px;
+            text-align: left;
+        }
+
+        .hero-texto h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-texto p {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--amarelo);
+            color: var(--azul-escuro);
+            padding: 0.7rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+
+        .btn:hover {
+            background-color: #e0a800;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .servicos-destaque {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .servico-destaque {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .servico-destaque:hover {
+            transform: translateY(-5px);
+        }
+
+        .servico-destaque i {
+            font-size: 40px;
+            color: #0a1f3d;
+            margin-bottom: 15px;
+        }
+
+        .servico-destaque h3 {
+            color: #0a1f3d;
+            margin-bottom: 10px;
+        }
+
+        .servico-destaque a {
+            color: #e6b800;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .avaliacoes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .avaliacao {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .estrelas {
+            color: #ffcc00;
+            margin-bottom: 10px;
+        }
+
+        .avaliacao span {
+            font-style: italic;
+            color: #666;
+        }
+
+        footer {
+            background-color: var(--azul-escuro);
+            color: var(--branco);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-texto {
+                text-align: center;
+            }
+            
+            .servicos-destaque, .avaliacoes {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Melhorias de responsividade */
+@media (max-width: 768px) {
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+    }
+    
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .hero-texto {
+        text-align: center;
+    }
+    
+    .servicos-destaque, .avaliacoes {
+        grid-template-columns: 1fr;
+    }
+    
+    .container {
+        padding: 0 0.5rem;
+    }
+    
+    .form-card {
+        padding: 1.5rem;
+    }
+    
+    .calendar-grid {
+        grid-template-columns: repeat(7, 1fr);
+        font-size: 0.8rem;
+    }
+    
+    .calendar-day {
+        padding: 0.5rem 0.3rem;
+        min-height: 60px;
+    }
+}
+
+/* Melhorias de acessibilidade */
+a:focus, button:focus {
+    outline: 2px solid var(--amarelo);
+    outline-offset: 2px;
+}
+
+/* Texto alternativo para imagens */
+img:not([alt]) {
+    border: 2px solid red;
+}
+
+/* Otimizações de carregamento */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Melhorias de formulário */
+.form-group input:invalid, .form-group textarea:invalid {
+    border-color: #dc3545;
+}
+
+.form-group input:valid, .form-group textarea:valid {
+    border-color: #28a745;
+}
+
+
+
+.whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            background-color: #25D366;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+        }
+
+        .whatsapp-btn i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+    <nav>
+        <a href="index.html" class="logo">Auto Peças Fossa</a>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="servicos.html">Serviços</a>
+            <a href="produtos.html">Produtos</a>
+            <div id="auth-buttons">
+                
+            </div>
+            <div id="user-menu" style="display:none;">
+                <div class="user-dropdown">
+                    <img src="imagens/imagem.oficina.icone.jpg" alt="Perfil" class="icone-perfil" id="user-icon">
+                    <div class="dropdown-content">
+                        <a href="perfil-completo.html">Meu Perfil</a>
+                        <a href="perfil.html">Cadastrar Carro</a>
+                        <a href="#" id="logout-btn">Sair</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-logo">
+                <img src="imagens/logo fossa png.png" alt="Logo Auto Peças Fossa" />
+            </div>
+            <div class="hero-texto">
+                <h1>Seu carro em boas mãos</h1>
+                <p>Mais de 30 anos de experiência em mecânica automotiva</p>
+                <a href="servicos.html" class="btn">Nossos Serviços</a>
+                <a href="agendamento.html" class="btn" style="background-color: #ffc107; margin-left: 10px;">Agendar Agora</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="historia">
+            <h2>Nossa História</h2>
+            <section class="historia1">
+                <p>Fundada em 1994, a Auto Peças Fossa nasceu da paixão por automóveis e do desejo de oferecer serviços de qualidade. Começamos como uma pequena oficina de bairro e hoje somos referência na região, com uma equipe altamente qualificada e equipamentos de última geração.</p>
+                <p>Nosso nome "Fossa" vem de Família - nosso conhecimento técnico e atenção aos detalhes fazem toda a diferença no serviço prestado.</p>
+            </section>
+        </section>
+
+        <h2>Nossos Principais Serviços</h2>
+        <div class="servicos-destaque">
+            <div class="servico-destaque">
+                <i class="fas fa-oil-can"></i>
+                <h3>Troca de Óleo</h3>
+                <p>Serviço rápido e eficiente com os melhores lubrificantes do mercado.</p>
+                <a href="servicos.html#troca-oleo">Saiba mais</a>
+            </div>
+            <div class="servico-destaque">
+                <i class="fas fa-tools"></i>
+                <h3>Revisão Completa</h3>
+                <p>Check-up completo do seu veículo para garantir segurança e performance.</p>
+                <a href="servicos.html#revisao">Saiba mais</a>
+            </div>
+            <div class="servico-destaque">
+                <i class="fas fa-car-battery"></i>
+                <h3>Elétrica Automotiva</h3>
+                <p>Diagnóstico e reparo de todo o sistema elétrico do seu carro.</p>
+                <a href="servicos.html#eletrica">Saiba mais</a>
+            </div>
+        </div>
+
+        <h2>O que nossos clientes dizem</h2>
+<div class="avaliacoes" id="avaliacoes-container">
+    <div class="loading">Carregando avaliações...</div>
+</div>
+
+        <h2>Nossa Oficina</h2>
+        <div class="galeria">
+            <img src="imagens/imagem.oficina.2.png" alt="Oficina Mecânica Fossa - Área de trabalho">
+            <img src="imagens/imagem.oficina.chave.2.jpg" alt="Equipe da Oficina Mecânica Fossa">
+            <img src="imagens/imagem.oficina.inicial.png" alt="Ferramentas e equipamentos">
+            <img src="imagens/ChatGPT Image 8 de jul. de 2025, 15_39_42.png" alt="Atendimento ao cliente">
+        </div>
+
+        <section>
+            <h2>Por que escolher a Oficina Fossa?</h2>
+            <ul>
+                <li>Equipe certificada e experiente</li>
+                <li>Garantia em todos os serviços</li>
+                <li>Preços justos e transparentes</li>
+                <li>Tecnologia de ponta</li>
+                <li>Atendimento personalizado</li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+    <p>Oficina Mecânica Fossa &copy; 2025 - Todos os direitos reservados</p>
+    <p>Endereço: Rua Marquês do Herval, 266 - Bairro Centro - Ibirama/SC</p>
+    <p>Telefone: (47) 3357-3700</p>
+    <a href="https://wa.me/5547988213642" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i> WhatsApp: (47) 98821-3642
+    </a>
+</footer>
+
+    <script>
+      
+        function checkLoginStatus() {
+            const authSection = document.getElementById('auth-buttons');
+            const userMenu = document.getElementById('user-menu');
+            
+            
+            const usuarioLogado = localStorage.getItem('usuario_logado') || sessionStorage.getItem('usuario_logado');
+            
+            if (usuarioLogado) {
+                authSection.style.display = 'none';
+                userMenu.style.display = 'block';
+                
+                try {
+                    const usuario = JSON.parse(usuarioLogado);
+                    document.getElementById('user-icon').alt = usuario.nome;
+                } catch (e) {
+                    console.error('Erro ao parsear dados do usuário:', e);
+                }
+            } else {
+                authSection.innerHTML = `
+                    <a href="login.html" class="btn-login">Login</a>
+                    <a href="cadastro.html" class="btn-cadastro">Cadastre-se</a>
+                `;
+                authSection.style.display = 'flex';
+                authSection.style.gap = '15px';
+                authSection.style.alignItems = 'center';
+                userMenu.style.display = 'none';
+            }
+        }
+
+      
+        document.getElementById('logout-btn')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('usuario_logado');
+            sessionStorage.removeItem('usuario_logado');
+            window.location.href = 'index.html';
+        });
+
+      
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+        });
+
+
+        // Carregar feedbacks do banco de dados (apenas 3)
+async function carregarFeedbacks() {
+    try {
+        const response = await fetch('get_feedbacks.php');
+        const feedbacks = await response.json();
+        
+        const container = document.getElementById('avaliacoes-container');
+        
+        if (feedbacks.length === 0) {
+            container.innerHTML = `
+                <div class="avaliacao">
+                    <p>Ainda não temos avaliações. Seja o primeiro a deixar um feedback!</p>
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '';
+        feedbacks.forEach(feedback => {
+            // Formatar data
+            const data = new Date(feedback.data);
+            const dataFormatada = data.toLocaleDateString('pt-BR');
+            
+            // Gerar estrelas baseadas na avaliação
+            let estrelas = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= feedback.avaliacao) {
+                    estrelas += '<i class="fas fa-star"></i>';
+                } else {
+                    estrelas += '<i class="far fa-star"></i>';
+                }
+            }
+            
+            html += `
+                <div class="avaliacao">
+                    <div class="estrelas">
+                        ${estrelas}
+                    </div>
+                    <p>${feedback.comentario}</p>
+                    <span>- ${feedback.nome} (${dataFormatada})</span>
+                </div>
+            `;
+        });
+        
+        // Adicionar botão "Ver mais"
+        html += `
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="todos_feedbacks.html" class="btn" style="background-color: var(--azul-escuro); color: var(--amarelo);">
+                    Ver Todos os Feedbacks
+                </a>
+            </div>
+        `;
+        
+        container.innerHTML = html;
+    } catch (error) {
+        console.error('Erro ao carregar feedbacks:', error);
+        document.getElementById('avaliacoes-container').innerHTML = `
+            <div class="avaliacao">
+                <p>Erro ao carregar avaliações.</p>
+            </div>
+        `;
+    }
+}
+
+// Adicionar botão de feedback no index.html (na seção apropriada)
+function adicionarBotaoFeedback() {
+    const container = document.querySelector('.container');
+    const botaoFeedback = document.createElement('div');
+    botaoFeedback.style.textAlign = 'center';
+    botaoFeedback.style.margin = '2rem 0';
+    botaoFeedback.innerHTML = `
+        <a href="feedback.html" class="btn" style="background-color: #0a1f3d; color: #ffc107;">
+            <i class="fas fa-comment"></i> Deixar Feedback
+        </a>
+    `;
+    container.appendChild(botaoFeedback);
+}
+
+// Chamar as funções no DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    checkLoginStatus();
+    carregarFeedbacks();
+    adicionarBotaoFeedback();
+});
+    </script>
+</body>
+</html>

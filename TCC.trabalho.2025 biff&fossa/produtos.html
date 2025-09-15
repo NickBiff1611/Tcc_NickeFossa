@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos - Oficina Mecânica Fossa</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --azul-escuro: #0a1f3d;
+            --amarelo: #ffc107;
+            --amarelo-claro: #fff3cd;
+            --branco: #ffffff;
+            --cinza: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--cinza);
+            color: var(--azul-escuro);
+        }
+
+        header {
+            background-color: var(--azul-escuro);
+            color: var(--amarelo);
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--amarelo);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--branco);
+            text-decoration: none;
+            transition: color 0.3s;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .nav-links a:hover {
+            color: var(--amarelo);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a.btn-login {
+            background-color: var(--amarelo);
+            color: var(--azul-escuro);
+            font-weight: bold;
+            padding: 8px 15px;
+        }
+
+        .nav-links a.btn-login:hover {
+            background-color: #e0a800;
+            color: var(--azul-escuro);
+        }
+
+        .nav-links a.btn-cadastro {
+            background-color: var(--amarelo);
+            color: var(--azul-escuro);
+            font-weight: bold;
+            padding: 8px 15px;
+        }
+
+        .nav-links a.btn-cadastro:hover {
+            background-color: #e0a800;
+            color: var(--azul-escuro);
+        }
+
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .icone-perfil {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid var(--amarelo);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .user-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            background-color: #25D366;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+        }
+
+        .whatsapp-btn i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Auto Peças Fossa</a>
+            <div class="nav-links">
+                <a href="index.html">Início</a>
+                <a href="servicos.html">Serviços</a>
+                <a href="produtos.html">Produtos</a>
+                <div id="auth-buttons">
+                    <!-- Será preenchido via JavaScript -->
+                </div>
+                <div id="user-menu" style="display:none;">
+                    <div class="user-dropdown">
+                        <img src="imagens/imagem.oficina.icone.jpg" alt="Perfil" class="icone-perfil" id="user-icon">
+                        <div class="dropdown-content">
+                            <a href="perfil-completo.html">Meu Perfil</a>
+                            <a href="perfil.html">Cadastrar Carro</a>
+                            <a href="#" id="logout-btn">Sair</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero" style="background-image: linear-gradient(rgba(10, 31, 61, 0.8), rgba(10, 31, 61, 0.8)), url('../images/produtos-banner.jpg');">
+        <h1>Nossos Produtos</h1>
+        <p>Peças e acessórios de qualidade para seu veículo</p>
+    </section>
+
+    <div class="container">
+        <div class="produto-card">
+            <img src="imagens/imagem.oficina.pronta.oleo.jpg" alt="Óleo lubrificante" class="produto-img">
+            <div class="produto-content">
+                <h3>Óleos Lubrificantes</h3>
+                <p>Trabalhamos com as melhores marcas de óleos lubrificantes para motor, câmbio e diferencial. Oferecemos opções mineral, semi-sintético e sintético para todas as necessidades do seu veículo.</p>
+                <p><strong>Marcas:</strong> Petrobras, Mobil, Castrol, Shell</p>
+                <p><strong>Garantia:</strong> 1 ano</p>
+            </div>
+        </div>
+
+        <div class="produto-card">
+            <img src="imagens/imagem.oficina.pronta.pneu.jpg" alt="Pneus" class="produto-img">
+            <div class="produto-content">
+                <h3>Pneus e Rodas</h3>
+                <p>Ampla variedade de pneus para todos os tipos de veículos, desde carros de passeio até SUVs e picapes. Também oferecemos serviços de balanceamento, alinhamento e cambagem.</p>
+                <p><strong>Marcas:</strong> Pirelli, Michelin, Goodyear, Bridgestone</p>
+                <p><strong>Garantia:</strong> Varia conforme fabricante</p>
+            </div>
+        </div>
+
+        <div class="produto-card">
+            <img src="imagens/imagem.oficina.pronta.bateria.jpg" alt="Baterias" class="produto-img">
+            <div class="produto-content">
+                <h3>Baterias Automotivas</h3>
+                <p>Baterias de alta performance para todos os modelos de veículos. Trabalhamos com as melhores marcas do mercado, garantindo partida rápida mesmo em temperaturas extremas.</p>
+                <p><strong>Marcas:</strong> Moura, Heliar, AC Delco</p>
+                <p><strong>Garantia:</strong> 12-24 meses</p>
+            </div>
+        </div>
+
+        <div class="produto-card">
+            <img src="imagens/imagem.oficina.pronta.filtro.jpg" alt="Filtros" class="produto-img">
+            <div class="produto-content">
+                <h3>Filtros Automotivos</h3>
+                <p>Filtros de óleo, ar, combustível e ar condicionado das principais marcas do mercado. Manter os filtros em dia é essencial para a saúde do seu motor e para a qualidade do ar dentro do veículo.</p>
+                <p><strong>Marcas:</strong> Fram, Mann Filter, Wix</p>
+                <p><strong>Garantia:</strong> 6 meses</p>
+            </div>
+        </div>
+
+        <div class="produto-card">
+            <img src="imagens/imagem.oficina.pronta.acessorios.jpg" alt="Acessórios" class="produto-img">
+            <div class="produto-content">
+                <h3>Acessórios Automotivos</h3>
+                <p>Ampla variedade de acessórios para personalizar e melhorar o conforto do seu veículo, incluindo alarmes, som automotivo, películas, faróis de LED e muito mais.</p>
+                <p><strong>Marcas:</strong> Pioneer, JBL, 3M, Philips</p>
+                <p><strong>Garantia:</strong> Varia conforme produto</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+    <p>Oficina Mecânica Fossa &copy; 2025 - Todos os direitos reservados</p>
+    <p>Endereço: Rua Marquês do Herval, 266 - Bairro Centro - Ibirama/SC</p>
+    <p>Telefone: (47) 3357-3700</p>
+    <a href="https://wa.me/5547988213642" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i> WhatsApp: (47) 98821-3642
+    </a>
+</footer>
+
+    <script>
+        function checkLoginStatus() {
+            const authSection = document.getElementById('auth-buttons');
+            const userMenu = document.getElementById('user-menu');
+            
+            // Verificar se o usuário está logado
+            const usuarioLogado = localStorage.getItem('usuario_logado') || sessionStorage.getItem('usuario_logado');
+            
+            if (usuarioLogado) {
+                // Usuário logado - mostrar menu do usuário
+                authSection.style.display = 'none';
+                userMenu.style.display = 'block';
+                
+                try {
+                    const usuario = JSON.parse(usuarioLogado);
+                    document.getElementById('user-icon').alt = usuario.nome;
+                } catch (e) {
+                    console.error('Erro ao parsear dados do usuário:', e);
+                }
+            } else {
+                // Usuário não logado - mostrar botões de login/cadastro
+                authSection.innerHTML = `
+                    <a href="login.html" class="btn-login">Login</a>
+                    <a href="cadastro.html" class="btn-cadastro">Cadastre-se</a>
+                `;
+                authSection.style.display = 'flex';
+                authSection.style.gap = '15px';
+                authSection.style.alignItems = 'center';
+                userMenu.style.display = 'none';
+            }
+        }
+
+        // Configurar logout
+        document.getElementById('logout-btn')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('usuario_logado');
+            sessionStorage.removeItem('usuario_logado');
+            window.location.href = 'index.html';
+        });
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+        });
+    </script>
+</body>
+</html>
