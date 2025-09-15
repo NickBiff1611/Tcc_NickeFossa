@@ -1,8 +1,13 @@
 # 🚗 Auto Peças Fossa - Sistema de Oficina Mecânica
 
-Sistema web desenvolvido para a **Oficina Mecânica Auto Peças Fossa**.  
-O objetivo é oferecer uma plataforma moderna para clientes e funcionários gerenciarem **agendamentos, cadastro de veículos, login, serviços, produtos e feedbacks**.
-
+Site web desenvolvido para a **Oficina Mecânica Fossa**, 
+oferecendo funcionalidades de:
+- Cadastro e login de usuários
+- Cadastro de veículos
+- Agendamento de serviços com calendário interativo
+- Visualização de serviços e produtos disponíveis
+- Área de perfil do cliente
+- Sistema de feedback e avaliações
 ---
 
 ## 📋 Tecnologias Utilizadas
@@ -10,7 +15,7 @@ O objetivo é oferecer uma plataforma moderna para clientes e funcionários gere
 - **Frontend:** HTML5, CSS3, JavaScript  
 - **Backend:** PHP 8.4 (8.4.12)  
 - **Banco de Dados:** MySQL 8.0.43 (gerenciado via MySQL Workbench)  
-- **Servidor:** PHP embutido (`php -S`) ou qualquer outro servidor com suporte a PHP  
+- **Servidor:** PHP embutido (`php -S`)
 
 ---
 
@@ -27,7 +32,7 @@ Antes de rodar o projeto, você precisa ter instalado:
 
 ## 🚀 Instalação (passo a passo)
 
-1. **Clone o repositório ou copie os arquivos do projeto**  
+1. Clone o repositório:  
    ```bash
-   git clone https://github.com/SEU_USUARIO/autopecas-fossa.git
-   cd autopecas-fossa
+   git clone https://github.com/NickBiff1611/Tcc_NickeFossa.git
+   cd Tcc_NickeFossa
