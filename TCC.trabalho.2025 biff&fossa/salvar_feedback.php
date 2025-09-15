@@ -3,9 +3,10 @@ session_start();
 include "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Coleta de dados do formulário
     $nome = trim($_POST["nome"] ?? '');
     $email = trim($_POST["email"] ?? '');
-    $telefone = trim($_POST["telefone"] ?? '');
+    $telefone = trim($_POST["telefone"] ?? ''); // Novo campo telefone
     $mensagem = trim($_POST["mensagem"] ?? '');
     $avaliacao = intval($_POST["avaliacao"] ?? 5);
     $feedback_id = intval($_POST["feedback_id"] ?? 0);
