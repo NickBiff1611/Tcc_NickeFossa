@@ -1,6 +1,6 @@
 # 🚗 Auto Peças Fossa - Sistema de Oficina Mecânica
 
-Site web desenvolvido para a **Oficina Mecânica Fossa**, 
+Site web desenvolvido para a **Auto Peças Fossa**, 
 oferecendo funcionalidades de:
 - Cadastro e login de usuários
 - Cadastro de veículos
