@@ -43,7 +43,7 @@ Antes de rodar o projeto, você precisa ter instalado:
    $host = "localhost";
    $usuario = "root";
    $senha = "SUA_SENHA";
-   $banco = "oficina_fossa";
+   $banco = "oficina_modi";
 
 4. Importe o esquema do banco
 
