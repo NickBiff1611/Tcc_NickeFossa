@@ -36,3 +36,25 @@ Antes de rodar o projeto, você precisa ter instalado:
    ```bash
    git clone https://github.com/NickBiff1611/Tcc_NickeFossa.git
    cd Tcc_NickeFossa
+
+2. Crie o banco de dados no MySQL
+
+3. Edite o arquivo config.php com suas credenciais:
+   $host = "localhost";
+   $usuario = "root";
+   $senha = "SUA_SENHA";
+   $banco = "oficina_fossa";
+
+4. Importe o esquema do banco
+
+## ▶️ Instruções de Execução
+ 
+ Acesse a pasta do projeto:
+- cd Tcc_NickeFossa
+
+Inicie o servidor PHP embutido:
+- php -S localhost:8080
+
+Abra o navegador e acesse:
+- http://localhost:8080/index.html
+
