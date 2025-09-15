@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento - Oficina Mecânica Fossa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --azul-escuro: #0a1f3d;
+            --amarelo: #ffc107;
+            --amarelo-claro: #fff3cd;
+            --branco: #ffffff;
+            --cinza: #f8f9fa;
+            --verde: #28a745;
+            --vermelho: #dc3545;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--cinza);
+            color: var(--azul-escuro);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--azul-escuro);
+            color: var(--amarelo);
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--amarelo);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--branco);
+            text-decoration: none;
+            transition: color 0.3s;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .nav-links a:hover {
+            color: var(--amarelo);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a.btn-login {
+            background-color: var(--amarelo);
+            color: var(--azul-escuro);
+            font-weight: bold;
+            padding: 8px 15px;
+        }
+
+        .nav-links a.btn-login:hover {
+            background-color: #e0a800;
+            color: var(--azul-escuro);
+        }
+
+        .nav-links a.btn-cadastro {
+            background-color: var(--amarelo);
+            color: var(--azul-escuro);
+            font-weight: bold;
+            padding: 8px 15px;
+        }
+
+        .nav-links a.btn-cadastro:hover {
+            background-color: #e0a800;
+            color: var(--azul-escuro);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--azul-escuro);
+        }
+
+        .agendamento-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            background: var(--branco);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+
+        .mecanicos-section {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .calendario-section {
+            flex: 2;
+            min-width: 300px;
+        }
+
+        .section-title {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--amarelo);
+            color: var(--azul-escuro);
+        }
+
+        .mecanico-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: var(--cinza);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mecanico-item:hover {
+            background: var(--amarelo-claro);
+        }
+
+        .mecanico-item.selected {
+            background: var(--amarelo);
+            color: var(--azul-escuro);
+            font-weight: bold;
+        }
+
+        .mecanico-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--azul-escuro);
+            color: var(--amarelo);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .calendario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .semana-navigation {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-nav {
+            background: var(--azul-escuro);
+            color: var(--branco);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .btn-nav:hover {
+            background: #08214e;
+        }
+
+        .semana-atual {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .calendario-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 5px;
+        }
+
+        .calendario-cell {
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .calendario-header-cell {
+            background: var(--azul-escuro);
+            color: var(--branco);
+            font-weight: bold;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .horario-cell {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .dia-cell {
+            background: #e9ecef;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dia-cell:hover {
+            background: #dee2e6;
+        }
+
+        .dia-cell.selected {
+            background: var(--amarelo);
+            color: var(--azul-escuro);
+            font-weight: bold;
+        }
+
+        .horario-slot {
+            background: var(--branco);
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .horario-slot:hover {
+            background: #e9ecef;
+        }
+
+        .horario-slot.disponivel {
+            background: var(--verde);
+            color: var(--branco);
+        }
+
+        .horario-slot.ocupado {
+            background: var(--vermelho);
+            color: var(--branco);
+            cursor: not-allowed;
+        }
+
+        .horario-slot.selecionado {
+            background: var(--amarelo);
+            color: var(--azul-escuro);
+            font-weight: bold;
+            border: 2px solid var(--azul-escuro);
+        }
+
+        .form-section {
+            margin-top: 2rem;
+            background: var(--branco);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--amarelo);
+            color: var(--azul-escuro);
+            padding: 0.7rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-voltar {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-voltar:hover {
+            background: #5a6268;
+        }
+
+        .resumo-agendamento {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin-top: 1.5rem;
+            border-left: 4px solid var(--amarelo);
+        }
+
+        .resumo-agendamento p {
+            margin-bottom: 0.5rem;
+        }
+
+        .resumo-agendamento strong {
+            color: var(--azul-escuro);
+        }
+
+        footer {
+            background-color: var(--azul-escuro);
+            color: var(--branco);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .agendamento-container {
+                flex-direction: column;
+            }
+            
+            .calendario-grid {
+                grid-template-columns: repeat(7, 1fr);
+                overflow-x: auto;
+            }
+            
+            .calendario-cell {
+                min-width: 50px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Oficina Mecânica Fossa</a>
+            <div class="nav-links">
+                <a href="index.html">Início</a>
+                <a href="servicos.html">Serviços</a>
+                <a href="produtos.html">Produtos</a>
+                
+                <div id="user-menu" style="display:none;">
+                    <div class="user-dropdown">
+                        <img src="imagens/imagem.oficina.icone.jpg" alt="Perfil" class="icone-perfil" id="user-icon">
+                        <div class="dropdown-content">
+                            <a href="perfil-completo.html">Meu Perfil</a>
+                            <a href="perfil.html">Cadastrar Carro</a>
+                            <a href="#" id="logout-btn">Sair</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title">Agendamento de Serviços</h1>
+        
+        <div class="agendamento-container">
+            <div class="mecanicos-section">
+                <h2 class="section-title">Selecione o Mecânico</h2>
+                <div class="mecanico-item selected" data-mecanico="1">
+                    <div class="mecanico-avatar">M1</div>
+                    <div class="mecanico-info">
+                        <h3>Mecânico 1</h3>
+                        <p>Especialista em motores</p>
+                    </div>
+                </div>
+                <div class="mecanico-item" data-mecanico="2">
+                    <div class="mecanico-avatar">M2</div>
+                    <div class="mecanico-info">
+                        <h3>Mecânico 2</h3>
+                        <p>Especialista em elétrica</p>
+                    </div>
+                </div>
+                <div class="mecanico-item" data-mecanico="3">
+                    <div class="mecanico-avatar">M3</div>
+                    <div class="mecanico-info">
+                        <h3>Mecânico 3</h3>
+                        <p>Especialista em suspensão</p>
+                    </div>
+                </div>
+                <div class="mecanico-item" data-mecanico="4">
+                    <div class="mecanico-avatar">M4</div>
+                    <div class="mecanico-info">
+                        <h3>Mecânico 4</h3>
+                        <p>Especialista em freios</p>
+                    </div>
+                </div>
+                <div class="mecanico-item" data-mecanico="5">
+                    <div class="mecanico-avatar">M5</div>
+                    <div class="mecanico-info">
+                        <h3>Mecânico 5</h3>
+                        <p>Especialista em transmissão</p>
+                    </div>
+                </div>
+                <div class="mecanico-item" data-mecanico="6">
+                    <div class="mecanico-avatar">M6</div>
+                    <div class="mecanico-info">
+                        <h3>Mecânico 6</h3>
+                        <p>Especialista em ar condicionado</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="calendario-section">
+                <div class="calendario-header">
+                    <h2 class="section-title">Selecione o Dia e Horário</h2>
+                    <div class="semana-navigation">
+                        <button class="btn-nav" id="prev-week"><i class="fas fa-chevron-left"></i></button>
+                        <span class="semana-atual" id="week-range">10 Jun - 16 Jun 2023</span>
+                        <button class="btn-nav" id="next-week"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                
+                <div class="calendario-grid">
+                    <div class="calendario-header-cell">Horário</div>
+                    <div class="calendario-header-cell">Seg</div>
+                    <div class="calendario-header-cell">Ter</div>
+                    <div class="calendario-header-cell">Qua</div>
+                    <div class="calendario-header-cell">Qui</div>
+                    <div class="calendario-header-cell">Sex</div>
+                    <div class="calendario-header-cell">Sáb</div>
+                    <div class="calendario-header-cell">Dom</div>
+                    
+                    
+                    <div class="calendario-cell horario-cell">07:30 - 08:30</div>
+                    <div class="horario-slot disponivel" data-horario="07:30-08:30" data-dia="seg">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="07:30-08:30" data-dia="ter">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="07:30-08:30" data-dia="qua">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="07:30-08:30" data-dia="qui">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="07:30-08:30" data-dia="sex">Disponível</div>
+                    <div class="horario-slot ocupado" data-horario="07:30-08:30" data-dia="sab">Ocupado</div>
+                    <div class="horario-slot ocupado" data-horario="07:30-08:30" data-dia="dom">Ocupado</div>
+                    
+                    <div class="calendario-cell horario-cell">08:30 - 09:30</div>
+                    <div class="horario-slot disponivel" data-horario="08:30-09:30" data-dia="seg">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="08:30-09:30" data-dia="ter">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="08:30-09:30" data-dia="qua">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="08:30-09:30" data-dia="qui">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="08:30-09:30" data-dia="sex">Disponível</div>
+                    <div class="horario-slot ocupado" data-horario="08:30-09:30" data-dia="sab">Ocupado</div>
+                    <div class="horario-slot ocupado" data-horario="08:30-09:30" data-dia="dom">Ocupado</div>
+                    
+                    <div class="calendario-cell horario-cell">09:30 - 10:30</div>
+                    <div class="horario-slot disponivel" data-horario="09:30-10:30" data-dia="seg">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="09:30-10:30" data-dia="ter">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="09:30-10:30" data-dia="qua">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="09:30-10:30" data-dia="qui">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="09:30-10:30" data-dia="sex">Disponível</div>
+                    <div class="horario-slot ocupado" data-horario="09:30-10:30" data-dia="sab">Ocupado</div>
+                    <div class="horario-slot ocupado" data-horario="09:30-10:30" data-dia="dom">Ocupado</div>
+                    
+                    <div class="calendario-cell horario-cell">10:30 - 11:30</div>
+                    <div class="horario-slot disponivel" data-horario="10:30-11:30" data-dia="seg">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="10:30-11:30" data-dia="ter">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="10:30-11:30" data-dia="qua">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="10:30-11:30" data-dia="qui">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="10:30-11:30" data-dia="sex">Disponível</div>
+                    <div class="horario-slot ocupado" data-horario="10:30-11:30" data-dia="sab">Ocupado</div>
+                    <div class="horario-slot ocupado" data-horario="10:30-11:30" data-dia="dom">Ocupado</div>
+                    
+                    <div class="calendario-cell horario-cell">11:30 - 12:00</div>
+                    <div class="horario-slot disponivel" data-horario="11:30-12:00" data-dia="seg">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="11:30-12:00" data-dia="ter">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="11:30-12:00" data-dia="qua">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="11:30-12:00" data-dia="qui">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="11:30-12:00" data-dia="sex">Disponível</div>
+                    <div class="horario-slot ocupado" data-horario="11:30-12:00" data-dia="sab">Ocupado</div>
+                    <div class="horario-slot ocupado" data-horario="11:30-12:00" data-dia="dom">Ocupado</div>
+                    
+                    <div class="calendario-cell horario-cell">13:30 - 14:30</div>
+                    <div class="horario-slot disponivel" data-horario="13:30-14:30" data-dia="seg">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="13:30-14:30" data-dia="ter">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="13:30-14:30" data-dia="qua">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="13:30-14:30" data-dia="qui">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="13:30-14:30" data-dia="sex">Disponível</div>
+                    <div class="horario-slot ocupado" data-horario="13:30-14:30" data-dia="sab">Ocupado</div>
+                    <div class="horario-slot ocupado" data-horario="13:30-14:30" data-dia="dom">Ocupado</div>
+                    
+                    <div class="calendario-cell horario-cell">14:30 - 15:30</div>
+                    <div class="horario-slot disponivel" data-horario="14:30-15:30" data-dia="seg">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="14:30-15:30" data-dia="ter">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="14:30-15:30" data-dia="qua">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="14:30-15:30" data-dia="qui">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="14:30-15:30" data-dia="sex">Disponível</div>
+                    <div class="horario-slot ocupado" data-horario="14:30-15:30" data-dia="sab">Ocupado</div>
+                    <div class="horario-slot ocupado" data-horario="14:30-15:30" data-dia="dom">Ocupado</div>
+                    
+                    <div class="calendario-cell horario-cell">15:30 - 16:30</div>
+                    <div class="horario-slot disponivel" data-horario="15:30-16:30" data-dia="seg">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="15:30-16:30" data-dia="ter">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="15:30-16:30" data-dia="qua">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="15:30-16:30" data-dia="qui">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="15:30-16:30" data-dia="sex">Disponível</div>
+                    <div class="horario-slot ocupado" data-horario="15:30-16:30" data-dia="sab">Ocupado</div>
+                    <div class="horario-slot ocupado" data-horario="15:30-16:30" data-dia="dom">Ocupado</div>
+                    
+                    <div class="calendario-cell horario-cell">16:30 - 17:30</div>
+                    <div class="horario-slot disponivel" data-horario="16:30-17:30" data-dia="seg">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="16:30-17:30" data-dia="ter">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="16:30-17:30" data-dia="qua">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="16:30-17:30" data-dia="qui">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="16:30-17:30" data-dia="sex">Disponível</div>
+                    <div class="horario-slot ocupado" data-horario="16:30-17:30" data-dia="sab">Ocupado</div>
+                    <div class="horario-slot ocupado" data-horario="16:30-17:30" data-dia="dom">Ocupado</div>
+                    
+                    <div class="calendario-cell horario-cell">17:30 - 18:30</div>
+                    <div class="horario-slot disponivel" data-horario="17:30-18:30" data-dia="seg">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="17:30-18:30" data-dia="ter">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="17:30-18:30" data-dia="qua">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="17:30-18:30" data-dia="qui">Disponível</div>
+                    <div class="horario-slot disponivel" data-horario="17:30-18:30" data-dia="sex">Disponível</div>
+                    <div class="horario-slot ocupado" data-horario="17:30-18:30" data-dia="sab">Ocupado</div>
+                    <div class="horario-slot ocupado" data-horario="17:30-18:30" data-dia="dom">Ocupado</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h2 class="section-title">Finalizar Agendamento</h2>
+            
+            <div class="resumo-agendamento">
+                <p><strong>Mecânico selecionado:</strong> <span id="resumo-mecanico">Mecânico 1</span></p>
+                <p><strong>Data e horário:</strong> <span id="resumo-horario">Nenhum horário selecionado</span></p>
+            </div>
+            
+            <form id="formAgendamento">
+                <div class="form-group">
+                    <label for="selectCarro">Selecione seu carro</label>
+                    <select name="carro_id" id="selectCarro" required>
+                        <option value="">Carregando seus carros...</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="descricao">Descreva o problema do carro</label>
+                    <textarea name="descricao" id="descricao" placeholder="Exemplo: carro está fazendo barulho no motor..." required></textarea>
+                </div>
+                
+                <input type="hidden" name="mecanico" id="mecanico" value="1">
+                <input type="hidden" name="horario" id="horario" value="">
+                
+                <button type="button" class="btn btn-voltar" onclick="window.history.back()">Voltar</button>
+                <button type="submit" class="btn">Confirmar Agendamento</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>Oficina Mecânica Fossa &copy; 2025 - Todos os direitos reservados</p>
+        <p>Endereço: Rua Marquês do Herval, 266 - Bairro Centro - Ibirama/SC</p>
+        <p>Telefone: (47) 3357-3700 | WhatsApp: (47) 98821-3642</p>
+    </footer>
+
+    <script>
+        
+        let selectedMecanico = "1";
+        let selectedHorario = "";
+        
+     
+        document.querySelectorAll('.mecanico-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.mecanico-item').forEach(i => i.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedMecanico = this.getAttribute('data-mecanico');
+                document.getElementById('mecanico').value = selectedMecanico;
+                document.getElementById('resumo-mecanico').textContent = this.querySelector('h3').textContent;
+                updateHorarios();
+            });
+        });
+        
+       
+        document.querySelectorAll('.horario-slot.disponivel').forEach(slot => {
+            slot.addEventListener('click', function() {
+                if (this.classList.contains('ocupado')) return;
+                
+                document.querySelectorAll('.horario-slot').forEach(s => s.classList.remove('selecionado'));
+                this.classList.add('selecionado');
+                
+                const horario = this.getAttribute('data-horario');
+                const dia = this.getAttribute('data-dia');
+                const diaMap = {
+                    'seg': 'Segunda-feira',
+                    'ter': 'Terça-feira',
+                    'qua': 'Quarta-feira',
+                    'qui': 'Quinta-feira',
+                    'sex': 'Sexta-feira',
+                    'sab': 'Sábado',
+                    'dom': 'Domingo'
+                };
+                
+                selectedHorario = `${diaMap[dia]}, ${horario}`;
+                document.getElementById('horario').value = selectedHorario;
+                document.getElementById('resumo-horario').textContent = selectedHorario;
+            });
+        });
+        
+       
+        document.getElementById('prev-week').addEventListener('click', function() {
+            alert('Funcionalidade de navegação entre semanas será implementada em breve!');
+        });
+        
+        document.getElementById('next-week').addEventListener('click', function() {
+            alert('Funcionalidade de navegação entre semanas será implementada em breve!');
+        });
+        
+      
+        function updateHorarios() {
+       
+            document.querySelectorAll('.horario-slot').forEach(slot => {
+     
+                const random = Math.random();
+                if (random > 0.7) {
+                    slot.classList.remove('disponivel');
+                    slot.classList.add('ocupado');
+                    slot.textContent = 'Ocupado';
+                } else {
+                    slot.classList.remove('ocupado');
+                    slot.classList.add('disponivel');
+                    slot.textContent = 'Disponível';
+                }
+            });
+        }
+        
+        
+        async function carregarCarros() {
+    try {
+      console.log("Iniciando carregamento de carros...");
+      
+      const resposta = await fetch("get_carro.php");
+      
+      if (!resposta.ok) {
+        throw new Error('Erro ao carregar carros: ' + resposta.status);
+      }
+      
+      const carros = await resposta.json();
+      const select = document.getElementById("selectCarro");
+      
+      console.log("Carros recebidos:", carros);
+      
+      
+      if (Array.isArray(carros)) {
+        if (carros.length === 0) {
+          select.innerHTML = "<option value=''>Nenhum carro cadastrado</option>";
+          alert("Você precisa cadastrar um carro primeiro! Redirecionando para a página de cadastro.");
+          window.location.href = "perfil-completo.html";
+          return;
+        }
+        
+        select.innerHTML = "<option value=''>Selecione um carro</option>";
+        
+        carros.forEach(c => {
+          const opt = document.createElement("option");
+          opt.value = c.id;
+          opt.textContent = `${c.marca} ${c.modelo} - ${c.placa} (${c.ano})`;
+          select.appendChild(opt);
+        });
+        
+        console.log("Carros carregados com sucesso!");
+      } else {
+        console.error("Resposta não é um array:", carros);
+        select.innerHTML = "<option value=''>Erro ao carregar carros</option>";
+      }
+    } catch (erro) {
+      console.error("Erro ao carregar carros:", erro);
+      const select = document.getElementById("selectCarro");
+      select.innerHTML = "<option value=''>Erro ao carregar carros. Faça login novamente.</option>";
+    }
+  }
+        
+     
+    document.getElementById("formAgendamento").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        
+        if (!selectedHorario) {
+            alert("Por favor, selecione um horário antes de confirmar.");
+            return;
+        }
+        
+      
+        const formData = new FormData(this);
+        
+        try {
+            const response = await fetch("salvar_agendamento.php", {
+                method: "POST",
+                body: formData
+            });
+            
+            const result = await response.text();
+            
+            if (result === "success") {
+                alert("Agendamento confirmado com sucesso!\nMecânico: " + 
+                      document.getElementById('resumo-mecanico').textContent + 
+                      "\nHorário: " + selectedHorario);
+                window.location.href = "index.html";
+            } else {
+                alert("Erro ao agendar: " + result);
+            }
+        } catch (error) {
+            console.error("Erro:", error);
+            alert("Erro ao conectar com o servidor.");
+        }
+    });
+    
+ 
+    document.addEventListener('DOMContentLoaded', function() {
+        carregarCarros();
+    });
+</script>
+</body>
+</html>

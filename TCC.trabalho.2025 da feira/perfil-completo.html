@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Meu Perfil - Oficina Mecânica Fossa</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html" class="logo">Oficina Mecânica Fossa</a>
+      <div class="nav-links">
+        <a href="index.html">Início</a>
+        <a href="servicos.html">Serviços</a>
+        <a href="produtos.html">Produtos</a>
+        <div id="auth-buttons">
+         
+        </div>
+        <div id="user-menu" style="display:none;">
+          <div class="user-dropdown">
+            <img src="imagens/imagem.oficina.icone.jpg" alt="Perfil" class="icone-perfil" id="user-icon">
+            <div class="dropdown-content">
+              <a href="perfil-completo.html">Meu Perfil</a>
+              <a href="perfil.html">Cadastrar Carro</a>
+              <a href="#" id="logout-btn">Sair</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <h1>Meu Perfil</h1>
+      
+      <div class="perfil-container">
+        <section class="perfil-info">
+          <h2>Meus Dados</h2>
+          <div id="dados-usuario">
+            <p><strong>Nome:</strong> <span id="user-nome">Carregando...</span></p>
+            <p><strong>Email:</strong> <span id="user-email">Carregando...</span></p>
+            <p><strong>Telefone:</strong> <span id="user-telefone">Carregando...</span></p>
+            <p><strong>CPF:</strong> <span id="user-cpf">Carregando...</span></p>
+          </div>
+          <button class="btn-editar" onclick="editarPerfil()">Editar Perfil</button>
+        </section>
+
+        <section class="carros-container">
+          <h2>Meus Carros</h2>
+          
+          <div class="lista-carros">
+            <div id="lista-carros">
+              <p>Carregando seus carros...</p>
+            </div>
+            <a href="perfil.html" class="btn" style="display: inline-block; margin-top: 15px;">
+              <i class="fas fa-plus"></i> Cadastrar Novo Carro
+            </a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Oficina Mecânica Fossa &copy; 2025 - Todos os direitos reservados</p>
+    <p>Endereço: Rua Marquês do Herval, 266 - Bairro Centro - Ibirama/SC</p>
+    <p>Telefone: (47) 3357-3700 | WhatsApp: (47) 98821-3642</p>
+  </footer>
+
+  <script>
+  
+    function carregarDadosUsuario() {
+      try {
+        const usuarioLogado = localStorage.getItem('usuario_logado') || sessionStorage.getItem('usuario_logado');
+        
+        if (usuarioLogado) {
+          const usuario = JSON.parse(usuarioLogado);
+          document.getElementById('user-nome').textContent = usuario.nome;
+          document.getElementById('user-email').textContent = usuario.email;
+          document.getElementById('user-telefone').textContent = usuario.telefone;
+          document.getElementById('user-cpf').textContent = usuario.cpf;
+        } else {
+          alert('Você precisa estar logado para acessar esta página!');
+          window.location.href = 'login.html';
+        }
+      } catch (error) {
+        console.error('Erro ao carregar dados do usuário:', error);
+      }
+    }
+
+
+    async function carregarCarrosUsuario() {
+      try {
+        const response = await fetch('get_carro.php');
+        const carros = await response.json();
+        
+        const listaCarros = document.getElementById('lista-carros');
+        
+        if (carros.length === 0) {
+          listaCarros.innerHTML = '<p>Nenhum carro cadastrado.</p>';
+          return;
+        }
+        
+        let html = '';
+        carros.forEach(carro => {
+          html += `
+            <div class="carro-item">
+              <div class="carro-info">
+                <h4>${carro.marca} ${carro.modelo} (${carro.ano})</h4>
+                <p>Placa: ${carro.placa} | Cor: ${carro.cor} | Combustível: ${carro.combustivel}</p>
+                <p>Quilometragem: ${carro.km} km</p>
+              </div>
+            </div>
+          `;
+        });
+        
+        listaCarros.innerHTML = html;
+      } catch (error) {
+        console.error('Erro ao carregar carros:', error);
+        document.getElementById('lista-carros').innerHTML = '<p>Erro ao carregar carros.</p>';
+      }
+    }
+
+    function editarPerfil() {
+      alert('Funcionalidade de edição de perfil será implementada em breve!');
+    }
+
+   
+    document.addEventListener('DOMContentLoaded', function() {
+      carregarDadosUsuario();
+      carregarCarrosUsuario();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Perfil do Usuário</title>
+  <link rel="stylesheet" href="style.css">
+<header>
+    <nav>
+        <a href="index.html" class="logo">Oficina Mecânica Fossa</a>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="servicos.html">Serviços</a>
+            <a href="produtos.html">Produtos</a>
+            <div id="auth-buttons">
+             
+            </div>
+            <div id="user-menu" style="display:none;">
+                <div class="user-dropdown">
+                    <img src="imagens/imagem.oficina.icone.jpg" alt="Perfil" class="icone-perfil" id="user-icon">
+                    <div class="dropdown-content">
+                        <a href="perfil-completo.html">Meu Perfil</a>
+                        <a href="perfil.html">Cadastrar Carro</a>
+                        <a href="#" id="logout-btn">Sair</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+  <main>
+    <section class="form-card">
+      <h2>Cadastro de Carro</h2>
+
+     
+      <form id="formCarro" action="salvar_carro.php" method="POST">
+        <div class="form-group">
+          <label for="marca">Marca *</label>
+          <input type="text" id="marca" name="marca" required>
+        </div>
+
+        <div class="form-group">
+          <label for="modelo">Modelo *</label>
+          <input type="text" id="modelo" name="modelo" required>
+        </div>
+
+        <div class="form-group">
+          <label for="ano">Ano *</label>
+          <input type="number" id="ano" name="ano" min="1900" max="2099" required>
+        </div>
+
+        <div class="form-group">
+          <label for="placa">Placa *</label>
+          <input type="text" id="placa" name="placa" placeholder="ABC1234" required>
+        </div>
+
+        <div class="form-group">
+          <label for="cor">Cor</label>
+          <input type="text" id="cor" name="cor">
+        </div>
+
+        <div class="form-group">
+          <label for="combustivel">Combustível *</label>
+          <select id="combustivel" name="combustivel" required>
+            <option value="">Selecione</option>
+            <option value="gasolina">Gasolina</option>
+            <option value="etanol">Etanol</option>
+            <option value="diesel">Diesel</option>
+            <option value="flex">Flex</option>
+            <option value="eletrico">Elétrico</option>
+            <option value="hibrido">Híbrido</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="km">Quilometragem *</label>
+          <input type="number" id="km" name="km" required>
+        </div>
+
+        <button type="submit" class="btn-primary">Cadastrar</button>
+      </form>
+    </section>
+
+    
+    <section class="form-card">
+      <h2>Meus Carros</h2>
+      <table border="1" width="100%" id="tabelaCarros">
+        <thead>
+          <tr>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Ano</th>
+            <th>Placa</th>
+            <th>Cor</th>
+            <th>Combustível</th>
+            <th>Km</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>Oficina Mecânica Fossa &copy; 2025 - Todos os direitos reservados</p>
+  </footer>
+
+  <script>
+    async function carregarCarrosPerfil() {
+      try {
+        const resposta = await fetch("get_carro.php");
+        
+        if (!resposta.ok) {
+          throw new Error('Erro ao carregar carros');
+        }
+        
+        const carros = await resposta.json();
+        const tbody = document.querySelector("#tabelaCarros tbody");
+        tbody.innerHTML = "";
+        
+       
+        if (!Array.isArray(carros)) {
+          console.error("Resposta não é um array:", carros);
+          tbody.innerHTML = `<tr><td colspan="7" style="text-align: center;">Erro ao carregar dados</td></tr>`;
+          return;
+        }
+        
+        if (carros.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" style="text-align: center;">Nenhum carro cadastrado</td></tr>`;
+          return;
+        }
+        
+        carros.forEach(carro => {
+          const linha = document.createElement("tr");
+          linha.innerHTML = `
+            <td>${carro.marca || "-"}</td>
+            <td>${carro.modelo || "-"}</td>
+            <td>${carro.ano || "-"}</td>
+            <td>${carro.placa || "-"}</td>
+            <td>${carro.cor || "-"}</td>
+            <td>${carro.combustivel || "-"}</td>
+            <td>${carro.km || "-"}</td>
+          `;
+          tbody.appendChild(linha);
+        });
+      } catch (erro) {
+        console.error("Erro ao carregar carros:", erro);
+        const tbody = document.querySelector("#tabelaCarros tbody");
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: red;">Erro ao carregar carros: ${erro.message}</td></tr>`;
+      }
+    }
+    
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      carregarCarrosPerfil();
+      
+     
+      const formCarro = document.getElementById("formCarro");
+      if (formCarro) {
+        formCarro.addEventListener("submit", function() {
+          
+          setTimeout(carregarCarrosPerfil, 1000);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
